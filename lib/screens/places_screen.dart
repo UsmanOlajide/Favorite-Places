@@ -3,6 +3,8 @@ import 'package:favorite_places/screens/add_place_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/place.dart';
+
 class PlacesScreen extends ConsumerStatefulWidget {
   const PlacesScreen({super.key});
 
@@ -11,21 +13,26 @@ class PlacesScreen extends ConsumerStatefulWidget {
 }
 
 class _PlacesScreenState extends ConsumerState<PlacesScreen> {
-
-  void _addPlace() async {
-    final addedPlace = await Navigator.of(context).push<String>(
+  void _toAddPlace()  {
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) {
           return const AddPlaceScreen();
         },
       ),
     );
-    print(addedPlace);
-    
+    // print(addedPlace);
+    // ref.read(placesProvider.notifier).addPlace(
+    //       Place(
+    //         title: addedPlace!,
+    //         id: DateTime.now().toIso8601String(),
+    //       ),
+    //     );
   }
 
   @override
   Widget build(BuildContext context) {
+    // print('RESTARTED');
     final placesList = ref.watch(placesProvider);
 
     Widget content = const Center(
@@ -36,7 +43,7 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen> {
     );
 
     if (placesList.isNotEmpty) {
-      ListView.builder(
+     content = ListView.builder(
         itemBuilder: (ctx, index) {
           return ListTile(
             title: Text(
@@ -54,7 +61,7 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen> {
         title: const Text('Your Places'),
         actions: [
           IconButton(
-            onPressed: _addPlace,
+            onPressed: _toAddPlace,
             icon: const Icon(Icons.add),
           ),
         ],
