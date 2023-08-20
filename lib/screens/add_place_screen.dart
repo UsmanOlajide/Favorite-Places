@@ -12,10 +12,13 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   final _formKey = GlobalKey<FormState>();
   var enteredTitle = '';
   void _addAPlace() {
-    _formKey.currentState!.validate();
+    if (_formKey.currentState!.validate()) {
+      
     _formKey.currentState!.save();
     // print(enteredTitle);
-    Navigator.of(context).pop(enteredTitle);
+    Navigator.of(context).pop();
+    }
+    
   }
 
   @override

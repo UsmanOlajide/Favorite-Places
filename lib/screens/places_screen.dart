@@ -36,7 +36,7 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen> {
     );
 
     if (placesList.isNotEmpty) {
-      ListView.builder(
+     content = ListView.builder(
         itemBuilder: (ctx, index) {
           return ListTile(
             title: Text(
