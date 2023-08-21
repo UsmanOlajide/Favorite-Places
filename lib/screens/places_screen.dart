@@ -13,15 +13,13 @@ class PlacesScreen extends ConsumerStatefulWidget {
 class _PlacesScreenState extends ConsumerState<PlacesScreen> {
 
   void _addPlace() async {
-    final addedPlace = await Navigator.of(context).push<String>(
+    await Navigator.of(context).push<String>(
       MaterialPageRoute(
         builder: (_) {
           return const AddPlaceScreen();
         },
       ),
     );
-    print(addedPlace);
-    
   }
 
   @override

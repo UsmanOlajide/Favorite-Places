@@ -1,24 +1,24 @@
 import 'package:favorite_places/providers/places_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddPlaceScreen extends StatefulWidget {
+class AddPlaceScreen extends ConsumerStatefulWidget {
   const AddPlaceScreen({super.key});
 
   @override
-  State<AddPlaceScreen> createState() => _AddPlaceScreenState();
+  ConsumerState<AddPlaceScreen> createState() => _AddPlaceScreenState();
 }
 
-class _AddPlaceScreenState extends State<AddPlaceScreen> {
+class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   final _formKey = GlobalKey<FormState>();
   var enteredTitle = '';
+  
   void _addAPlace() {
     if (_formKey.currentState!.validate()) {
-      
-    _formKey.currentState!.save();
-    // print(enteredTitle);
-    Navigator.of(context).pop();
+      _formKey.currentState!.save();
+
+      Navigator.of(context).pop();
     }
-    
   }
 
   @override
