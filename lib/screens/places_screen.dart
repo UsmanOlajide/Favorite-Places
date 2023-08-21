@@ -1,9 +1,7 @@
-import 'package:favorite_places/providers/places_provider.dart';
 import 'package:favorite_places/screens/add_place_screen.dart';
+import 'package:favorite_places/services/isar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../models/place.dart';
 
 class PlacesScreen extends ConsumerStatefulWidget {
   const PlacesScreen({super.key});
@@ -13,7 +11,7 @@ class PlacesScreen extends ConsumerStatefulWidget {
 }
 
 class _PlacesScreenState extends ConsumerState<PlacesScreen> {
-  void _toAddPlace()  {
+  void _toAddPlace() {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) {
@@ -33,28 +31,14 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen> {
   @override
   Widget build(BuildContext context) {
     // print('RESTARTED');
-    final placesList = ref.watch(placesProvider);
+    final placesList = ref.watch(isarServiceProvider);
 
-    Widget content = const Center(
-      child: Text(
-        'No places added yet!',
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-
-    if (placesList.isNotEmpty) {
-     content = ListView.builder(
-        itemBuilder: (ctx, index) {
-          return ListTile(
-            title: Text(
-              placesList[index].title,
-              style: const TextStyle(color: Colors.white),
-            ),
-          );
-        },
-        itemCount: placesList.length,
-      );
-    }
+    // Widget content = const Center(
+    //   child: Text(
+    //     'No places added yet!',
+    //     style: TextStyle(color: Colors.white),
+    //   ),
+    // );
 
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +50,35 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen> {
           ),
         ],
       ),
-      body: content,
+      body: placesList.when(
+        loading: () => const SizedBox(
+            height: 20, width: 20, child: CircularProgressIndicator()),
+        data: (places) {
+          if (places.isEmpty) {
+            const Center(
+              child: Text(
+                'No places added yet!',
+                style: TextStyle(color: Colors.white),
+              ),
+            );
+          }
+          return ListView.builder(
+            itemBuilder: (ctx, index) {
+              return ListTile(
+                title: Text(
+                  places[index].title,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              );
+            },
+            itemCount: places.length,
+          );
+        },
+        error: (e, st) => Text(
+          '$e',
+          style: const TextStyle(fontSize: 20),
+        ),
+      ),
     );
   }
 }

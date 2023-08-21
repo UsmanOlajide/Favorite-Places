@@ -48,3 +48,7 @@ class MyApp extends StatelessWidget {
 }
 
 //* TESTING BRANCH
+
+//* IMPLEMENTATIONS :
+//* State management
+//* Local Database Isar DB
