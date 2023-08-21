@@ -1,10 +1,8 @@
-import 'package:favorite_places/providers/places_provider.dart';
 import 'package:favorite_places/services/isar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/cache_model/cache_place.dart';
-import '../models/place.dart';
 
 class AddPlaceScreen extends ConsumerStatefulWidget {
   const AddPlaceScreen({super.key});
