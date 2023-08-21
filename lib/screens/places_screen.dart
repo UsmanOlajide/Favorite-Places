@@ -11,7 +11,6 @@ class PlacesScreen extends ConsumerStatefulWidget {
 }
 
 class _PlacesScreenState extends ConsumerState<PlacesScreen> {
-
   void _addPlace() async {
     await Navigator.of(context).push<String>(
       MaterialPageRoute(
@@ -34,12 +33,12 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen> {
     );
 
     if (placesList.isNotEmpty) {
-     content = ListView.builder(
+      content = ListView.builder(
         itemBuilder: (ctx, index) {
           return ListTile(
             title: Text(
               placesList[index].title,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white, fontSize: 25),
             ),
           );
         },
