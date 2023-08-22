@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:favorite_places/models/place.dart';
 import 'package:favorite_places/providers/places_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 class AddPlaceScreen extends ConsumerStatefulWidget {
   const AddPlaceScreen({super.key});
@@ -13,14 +16,35 @@ class AddPlaceScreen extends ConsumerStatefulWidget {
 class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   final _formKey = GlobalKey<FormState>();
   var enteredTitle = '';
+  var enteredNumber = 1;
+  var enteredCategory = 'evil';
 
-  // void _addAPlace() {
-  //   if (_formKey.currentState!.validate()) {
-  //     _formKey.currentState!.save();
+  void _addAPlace() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
-  //     Navigator.of(context).pop(enteredTitle);
-  //   }
-  // }
+      final Uri url = Uri.https(
+          'places-app-de309-default-rtdb.firebaseio.com', 'myplaces-app.json');
+
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'title': enteredTitle,
+        }),
+      );
+      print(response.body);
+      final Map<String, dynamic> decodedData = json.decode(response.body);
+      if (context.mounted) {
+        Navigator.of(context).pop(
+          Place(
+            title: enteredTitle,
+            id: decodedData['name'],
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +76,7 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
             const SizedBox(height: 30),
             ElevatedButton.icon(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    ref.read(placesProvider.notifier).addPlace(
-                          Place(
-                            title: enteredTitle,
-                            id: DateTime.now().toIso8601String(),
-                          ),
-                        );
-                    Navigator.of(context).pop(enteredTitle);
-                  }
+                  _addAPlace();
                 },
                 icon: const Icon(Icons.add),
                 label: const Text('Add Place'))

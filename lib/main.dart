@@ -48,3 +48,4 @@ class MyApp extends StatelessWidget {
 }
 
 //* FEATURE / REMOTE-DATABASE BRANCH
+//* implemeted firebase real time database
