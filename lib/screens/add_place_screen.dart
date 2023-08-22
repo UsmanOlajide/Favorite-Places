@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:favorite_places/models/place.dart';
-import 'package:favorite_places/providers/places_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
